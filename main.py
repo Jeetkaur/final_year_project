@@ -8,6 +8,7 @@ if len(spy_name)> 0:
     #spy_age=raw_input("Enter your age: ")
     #print type(spy_age)            #it always returns string
     spy_age = int(raw_input("Enter your age: "))
+
     print type(spy_age)  # it returns int
     if spy_age > 12 and spy_age <60:
         spy_rating=float(raw_input("Enter spy rating: "))
@@ -21,6 +22,7 @@ if len(spy_name)> 0:
         print "You are not eligible to be spy"
 
     spy_is_online=(raw_input("Spy is online or not :"))
+
     spy_name = spy_salutation+" "+spy_name
     print 'welcome ' ""   + spy_name + " Glad to have you back with "
     print "Alright " + spy_name + " I would like to know something about u before we proceed further"
