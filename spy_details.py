@@ -1,11 +1,20 @@
 spy={
-    'name': 'sim',
-    'salutation': 'miss',
-    'age' : 24,
-     'rating' :4.7,
-    'is online' :True
+    'Name': 'sim',
+    'Salutation': 'miss',
+    'Age' : 24,
+     'Rating' :4.7,
+    ' Online' :True
 
 }
+
+
+#from globals import spy
+#spy=spy("akki",25,4.7,True)
+
+
+
+
+
 #spy_name= 'sim'
 #spy_salutation= 'miss'
 #spy_age= 19

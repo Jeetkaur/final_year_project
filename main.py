@@ -1,46 +1,88 @@
 #import statements
-from spy_details import spy
+
+
 from spy_start_chat import start_chat
+from spy_details import spy
+from globals import spy
+import re
+
+
 print "Let's get started"
-question="Do you want to continue as " + spy['salutation']+ " " +spy['name'] + "(y/n)"
+whole=True
+
+question="Do you want to continue as " + spy['Name'] + "(Y/N) ? "
 existing= raw_input(question)
+#validating user input
 if(existing== 'y' or existing== 'Y'):
-    start_chat(spy['name'],spy['age'],spy['rating'],spy['is online'])
+    start_chat(spy.Name,spy.Age,spy.Rating,spy.Online)
+    whole=False
+
 elif(existing== 'N' or existing== 'n'):
-
-    spy_name = raw_input("provide your name here: ")
-    if len(spy['name']) > 0:
-        spy['age'] = 0
-        spy['rating'] = 0.0
-        spy['is_online'] = False
-        spy['salutation'] = raw_input("what should we call  you: ")
-        # spy_age=raw_input("Enter your age: ")
-        # print type(spy_age)            #it always returns string
-        spy['age'] = int(raw_input("Enter your age: "))
-
-        print type(spy['age'])  # it returns int
-        if spy['age'] > 12 and spy['age'] < 60:
-            spy['rating'] = float(raw_input("Enter spy rating: "))
-        if spy['rating'] > 4.5:
-            print "you have a great spy_rating"
-        elif spy['rating'] >= 3.5 and spy['rating'] <= 4.5:
-            print "you are one of the graet one"
-        elif spy['rating'] >= 2.5 and spy['rating'] <= 3.5:
-            print"you need to do more hardwork"
-        else:
-            print "You are not eligible to be spy"
-
-        spy['is_online'] = (raw_input("Spy is online or not :"))
-
-        spy['name'] = spy['salutation']+ " " + spy['name']
-        print 'welcome ' "" + spy['name'] + " Glad to have you back with "
-        print "Alright " + spy['name'] + " I would like to know something about u before we proceed further"
+    whole=False
+    wholecheck=True
+    while wholecheck:
+        tempcheck = True  # temporary variable
+        # Validation Using Regex
+        patternsalutation = '^Mr|Ms$'
+        patternname = '^[A-Za-z][A-Za-z\s]+$'
+        patternage = '^[0-9]+$'
+        patternrating = '^[0-9]+\.[0-9]$'
+        # Validating Each Values Using Regular Expression
+        while tempcheck:
+            salutation = raw_input("Mr. or Ms.? : ")
+            if (re.match(patternsalutation, salutation) != None):
+                tempcheck = False
+            else:
+                print "Enter Again"
+        tempcheck = True
+        while tempcheck:
+            spy.Name = raw_input("Enter Name: ")
+            if (re.match(patternname, spy.Name) != None):
+                tempcheck = False
+            else:
+                print "Enter Again"
+        # concatenation.
+        spy.Name = spy.Salutation + "." + spy.Name
+        tempcheck = True
+        while tempcheck:
+            spy.Age = raw_input("Age?")
+            if (re.match(patternage, spy.Age) != None):
+                tempcheck = False
+                spy.Age = int(spy.Age)
+            else:
+                print "Enter Again"
+        tempcheck = True
+        while tempcheck:
+            spy.Rating = raw_input("Spy rating?")
+            if (re.match(patternrating, spy.Rating) != None):
+                tempcheck = False
+                spy.Rating = float(spy.Rating)
+            else:
+                print "Enter Again"
+                # Checking If Spy is eligible
+                if spy.Rating <= 5.0 and spy.Age > 12 and spy.Age < 50:
+                    start_chat(spy.Name, spy.Age, spy.Rating, spy.SpyOnline)
+                    wholecheck = False
+                else:
+                    print "Invalid Entry!!!!Start From Scratch."
     else:
-        print "A spy needs to have a valid name, please try againn"
+        print "Wrong choice. Try again"
 
 
-else:
-    print "wrong choice"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
