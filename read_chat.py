@@ -1,27 +1,28 @@
-from steganography.steganography import Steganography
-from select_a_friend import select_friend
+from select_friend import select_friend
 from globals import friends
+from steganography.steganography import Steganography
+from termcolor import colored
+import re
+
 def read_chat():
-    friend_choice=select_friend()
-    #checking if friend list is not empty
+    #function logic
+    friend_choice = select_friend()
+    #to check if Friend List is not empty
     if friend_choice!=-1:
-        spyobj=friends[friend_choice]
-        # display spy details
-        # print colored(spyobject.Name, 'red'), " ", colored(spyobject.Age, 'red')
-        #Average words
-        spyobj.calcAverageWords()
-        #Checking if chat history is not empty
-        if(len(spyobj.chat)>0):
-            for chatobj in spyobj.chat:
-                tempstr=chatobj.Message
-                chatobj.Message=Steganography.decode(chatobj.Message)
-                chatobj.displayMessage()
-                chatobj.Message=tempstr
-
+        spyobject=friends[friend_choice]
+        #Display Spy Details
+        print colored(spyobject.Name,'red'), " ", colored(spyobject.Age,'red')
+        #Average Words
+        spyobject.calcAverageWords()
+        #to check If Chat History Is Not Empty
+        if(len(spyobject.chat)>0):
+            for chatobject in spyobject.chat:
+                tempstr=chatobject.Message
+                chatobject.Message=Steganography.decode(chatobject.Message)
+                # Display Chat
+                chatobject.displayMessage()
+                chatobject.Message=tempstr
         else:
-            print"No Chat History"
-
-
-
+            print colored("No Chat History!!!!",'red')
     else:
-        print"Empty friends list"
+        print colored("Empty Friend's List!!!!",'red')

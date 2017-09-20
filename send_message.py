@@ -1,102 +1,51 @@
+from select_friend import select_friend
 from steganography.steganography import Steganography
-import re
-from datetime import datetime
 from globals import friends,Chat
-from select_a_friend import select_friend
-def send_a_message():
-    friend_choice=select_friend()
-    #check first if list is not empty
-    if friend_choice!=-1:
-        pattern='^[A-Za-z][0-9A-Za-z\s]*\.jpg$'
-        patternsave='^SOS|SAVE ME|IN DANGER|HELP$'
-        temp1=True
-        #prepare the message
-        while temp1:
-            original_image=raw_input("Prvide the name of the image to hide the message")
-            if(re.match(pattern,original_image)!=None):
-                temp1=False
-            else:
-                print"enter again"
+from termcolor import colored
+from datetime import datetime
+#import regular expressions
+import re
 
-        temp1=True
-        while temp1:
-            output_image=raw_input("Provide the name of the  output image :")
-            if(re.match(pattern,output_image)!=0):
-                temp1=False
-        text=raw_input("Enter your text here")
-        if(len(text)>100): #In case if friend type more than words remove from friends list
-            print"Lage message input"
-            print"You are no more a spy"
+def send_message():
+    #function logic
+    friend_choice = select_friend()
+    #to check If Friend's List Is not Empty
+    if friend_choice!=-1:
+        pattern='^[A-Za-z][0-9A-Za-z\s]*\.jpg$'#expressions for correct name pattern for image
+        patternsave='^SAVE ME|IN DANGER|HELP$'
+        value=True
+        #Temporary Variable
+        #create message
+        while value:
+            original_image = raw_input("Provide the name of the image to hide the message: ")
+            if(re.match(pattern,original_image)!=None):
+                value=False
+            else:
+                print colored("Please Enter Again!!!!",'red')
+        value=True
+        while value:
+            output_image = raw_input("Provide the name of the output image : ")
+            if (re.match(pattern, output_image) != None):
+                value = False
+        text = raw_input("Enter your message here: ")
+        if(len(text)>100):
+            #remove friend he/she types more 100 words
+            print colored("Large Message Input!!!!",'red')
+            print colored("You are no more a Spy!!!!",'red')
             friends.remove(friends[friend_choice])
         else:
-            try:                     #Encrpt the message
-                Steganography.encode(original_image, output_image, text)
+            #Handling Exception If Image Does Not Exist
+            try:
+                # Encrypt the message
+                Steganography.encode(original_image,output_image,text)
                 chatobject=Chat(output_image,datetime.now())
-                friends[friend_choice].chat.append(chatobject)  #Sucessful message
-
-                print "Your message encrypted sucessfully"
-                #Handling situation for SOS|Danger
-                if(re.match(patternsave,text.upper())!=None):
-                    print "I got your location!!!!I'll be there soon!"
-
-
+                friends[friend_choice].chat.append(chatobject)
+                #Successful message
+                print colored("Your message encrpyted successfully",'green')
+                # Handling Situation For SOS|Danger
+                if (re.match(patternsave, text.upper()) != None):
+                    print colored("I got your location!!!!I'll be there soon!",'green')
             except IOError:
-                print"Image %s Does Not Exist !!!"%(original_image)
-
+                print colored("Image %s Does Not Exist!!!!" %(original_image),'red')
     else:
-        print"Empty Friends list"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #prepare the  message
-    original_image=raw_input("provide the name of the image to hide the message")
-    output_image=raw_input("provide the name of the output image")
-    text=raw_input("enter your text here: ")
-    #encrypt the message here
-    Steganography.encode(original_image,output_image,text)
+        print colored("Empty Friend's List!!!!",'red')
